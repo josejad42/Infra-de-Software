@@ -7,6 +7,7 @@ getchar:
     mov ah, 0x00
     int 16h
 ret
+
 putchar:
     mov ah, 0xe
     mov bh, 0
@@ -14,6 +15,14 @@ putchar:
     int 10h
 
    
+
+ret
+
+endl:
+    mov al, 0x0a
+    call putchar
+    mov al, 0x0d
+    call putchar
 
 ret
 _start:
@@ -26,6 +35,7 @@ _start:
     int 10h
 
     .input:
+    ;para inserir um numero menor que 10, eh necessario inserir o '0' na frente
         xor ax, ax
         xor dx, dx
         call getchar
@@ -49,6 +59,7 @@ _start:
         cmp al, 0
         jne .loop
         mov si, frase
+        call endl
         jmp .input
    
    
