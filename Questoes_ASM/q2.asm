@@ -75,9 +75,7 @@ gets:
             mov al, 0x0d
             call putchar
 
-            ret 
-
-printOcorr:
+            ret 
 
 
 printTam:
