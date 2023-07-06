@@ -12,10 +12,6 @@ print_grind:
       cmp cx, 0
       jne .somar
       
-
-
-
-
     .seila:
     
 
@@ -71,16 +67,7 @@ print_grind:
       .fim:
         ret
       
-%macro print_grind 1
-
-
-
-%endmacro
-
-      
-  
-
-start:
+gridar:
     xor ax, ax
     mov ds, ax
     mov es, ax
@@ -94,10 +81,4 @@ start:
     push 8
     call print_grind
     add sp, 2
-    
-    
-    
-
-   
-
-jmp $
+    ret
