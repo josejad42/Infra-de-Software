@@ -16,9 +16,11 @@ teste: ; função para testar as outras fucoes
     mov dx, 23
     call printObj
 
+
     ret
-    
-init:  // inicia a movimentaçao
+
+
+init:
     mov ax, 10
     call criaSquare14 
 
@@ -145,8 +147,8 @@ init:  // inicia a movimentaçao
  
     jmp .continue
 
-ret    
-    
+ret
+
 getchar:
     mov ah, 0x00
     int 16h
