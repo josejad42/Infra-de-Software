@@ -16,12 +16,11 @@ teste: ; função para testar as outras fucoes
     mov dx, 23
     call printObj
 
-
     ret
 
 
-init:
-    mov ax, 10
+init: ; inicializa na posicao inicial
+    mov ax, 12
     call criaSquare14 
 
     mov si, tsquare
@@ -31,7 +30,7 @@ init:
     push cx
     call printObj
     
-    call getchar
+    call getchar    ; lê w, a, s, d
     cmp al, 100
     je .right
     cmp al, 97
@@ -43,23 +42,31 @@ init:
 
     jmp init
     
-
 .right:
     pop cx
     push cx
-    cmp cx, 120
-    jg .continue
+    cmp cx, 120     ; verifica se n ultrapassa os limites do tabuleiro
+    jg .continue    
 
     mov ax, 10
     call criaSquare14 
     mov si, tsquare
     pop cx
     pop dx
-    add cx, 15
     push dx
     push cx
+    call printObj   ; muda a cor da posicao anterior
 
+    mov ax, 12
+    call criaSquare14 
+    mov si, tsquare
+    pop cx
+    pop dx
+    add cx, 15      ; muda de posicao
+    push dx
+    push cx
     call printObj
+
     jmp .continue
 
 .left:
@@ -67,6 +74,15 @@ init:
     push cx
     cmp cx, 22
     jl .continue
+
+    mov ax, 10
+    call criaSquare14 
+    mov si, tsquare
+    pop cx
+    pop dx
+    push dx
+    push cx
+    call printObj
 
     mov ax, 10
     call criaSquare14 
@@ -92,6 +108,15 @@ init:
 
     mov ax, 10
     call criaSquare14 
+    mov si, tsquare
+    pop cx
+    pop dx
+    push dx
+    push cx
+    call printObj
+
+    mov ax, 10
+    call criaSquare14 
     
     mov si, tsquare
     pop cx
@@ -113,6 +138,15 @@ init:
 
     mov ax, 10
     call criaSquare14 
+    mov si, tsquare
+    pop cx
+    pop dx
+    push dx
+    push cx
+    call printObj
+
+    mov ax, 10
+    call criaSquare14 
     
     mov si, tsquare
     pop cx
@@ -124,8 +158,8 @@ init:
     call printObj
     jmp .continue
 
-.continue:
-    mov ax, 10
+.continue:     ; continua printando na ocasiao do bixin estar parado
+    mov ax, 12
     call criaSquare14 
 
     mov si, tsquare
@@ -148,6 +182,7 @@ init:
     jmp .continue
 
 ret
+
 
 getchar:
     mov ah, 0x00
