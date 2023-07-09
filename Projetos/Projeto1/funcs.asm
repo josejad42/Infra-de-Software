@@ -1,8 +1,6 @@
-%define RIGHT 'd'
-
 teste: ; função para testar as outras fucoes
     mov ax, 8 ; cor do quadrado -> cinza escuro
-    call criaSquare15 
+    call criaSquare14 
 
     mov si, tsquare
     mov cx, 20 ; até 640
@@ -18,10 +16,143 @@ teste: ; função para testar as outras fucoes
     mov dx, 23
     call printObj
 
-
     ret
+    
+init:  // inicia a movimentaçao
+    mov ax, 10
+    call criaSquare14 
 
-criaSquare15:
+    mov si, tsquare
+    mov cx, 21
+    mov dx, 21
+    push dx
+    push cx
+    call printObj
+    
+    call getchar
+    cmp al, 100
+    je .right
+    cmp al, 97
+    je .left
+    cmp al, 115
+    je .down
+    cmp al, 119
+    je .up
+
+    jmp init
+    
+
+.right:
+    pop cx
+    push cx
+    cmp cx, 120
+    jg .continue
+
+    mov ax, 10
+    call criaSquare14 
+    mov si, tsquare
+    pop cx
+    pop dx
+    add cx, 15
+    push dx
+    push cx
+
+    call printObj
+    jmp .continue
+
+.left:
+    pop cx
+    push cx
+    cmp cx, 22
+    jl .continue
+
+    mov ax, 10
+    call criaSquare14 
+
+    
+    mov si, tsquare
+    pop cx
+    pop dx
+    sub cx, 15
+    push dx
+    push cx
+
+    call printObj
+    jmp .continue
+
+.up:
+    pop cx
+    pop dx
+    push dx
+    push cx
+    cmp dx, 22
+    jl .continue
+
+    mov ax, 10
+    call criaSquare14 
+    
+    mov si, tsquare
+    pop cx
+    pop dx
+    sub dx, 15
+    push dx
+    push cx
+
+    call printObj
+    jmp .continue
+
+.down:
+    pop cx
+    pop dx
+    push dx
+    push cx
+    cmp dx, 120
+    jg .continue
+
+    mov ax, 10
+    call criaSquare14 
+    
+    mov si, tsquare
+    pop cx
+    pop dx
+    add dx, 15
+    push dx
+    push cx
+
+    call printObj
+    jmp .continue
+
+.continue:
+    mov ax, 10
+    call criaSquare14 
+
+    mov si, tsquare
+    pop cx
+    pop dx
+    push dx
+    push cx
+    call printObj
+    
+    call getchar
+    cmp al, 100
+    je .right
+    cmp al, 97
+    je .left
+    cmp al, 115
+    je .down
+    cmp al, 119
+    je .up
+ 
+    jmp .continue
+
+ret    
+    
+getchar:
+    mov ah, 0x00
+    int 16h
+ret
+
+criaSquare14:
     xor bx, bx
     xor cx, cx
     xor dx, dx
@@ -30,13 +161,13 @@ criaSquare15:
         mov word tsquare [bx], ax
         inc bx
 
-        cmp dx, 15 ; num de colunas
+        cmp dx, 14 ; num de colunas
             je .EOF
         jmp .loop1
 
     .EOF:
         inc cx
-        cmp cx, 15 ; num de linhas
+        cmp cx, 14 ; num de linhas
             je .END
         mov word tsquare [bx], '*'
         inc bx
