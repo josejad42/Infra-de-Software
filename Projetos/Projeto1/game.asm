@@ -1,5 +1,5 @@
 gameSetup: ; base visual do jogo
     call gridar
-    call init
+    call teste
 
     ret
