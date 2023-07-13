@@ -10,11 +10,6 @@ data:
 
 
 	;Dados do projeto...
- 
-
-
-      
-  
 
 start:
     mov si, string

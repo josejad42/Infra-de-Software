@@ -1,364 +1,9 @@
-teste: ; função para testar as outras fucoes
-    xor bx, bx
-    call SetBandeira
-    call SetLives
-
-    call init
-    ret
-
-SetLives: ;Inicial life
-    mov si, heart
-    mov cx, 23
-    mov dx, 9
-    call printObj
-
-    mov si, heart
-    mov cx, 36
-    mov dx, 9
-    call printObj
-
-    mov si, heart
-    mov cx, 48
-    mov dx, 9
-    call printObj
-
-    ret
-
 SetBandeira:
     mov si, bandeira
     mov cx, 141 ; horizontal
     mov dx, 126 ;vertical
     call printObj
-    ret
-
-
-
-init: ; inicializa na posicao inicial
-
-    mov si, Red_Square
-    mov cx, 21
-    mov dx, 21
-    push dx
-    push cx
-    call printObj
-    
-    call getchar    ; lê w, a, s, d
-    cmp al, 100
-    je .right
-    cmp al, 97
-    je .left
-    cmp al, 115
-    je .down
-    cmp al, 119
-    je .up
-
-    jmp init
-    
-.right:
-    pop cx
-    push cx
-    cmp cx, 120     ; verifica se n ultrapassa os limites do tabuleiro
-    jg .continue    
-
-    mov si, LGreen_Square
-    pop cx
-    pop dx
-    push dx
-    push cx
-    call printObj   ; muda a cor da posicao anterior
-
-    mov si, Red_Square
-    pop cx
-    pop dx
-    add cx, 15      ; muda de posicao
-    push dx
-    push cx
-    call printObj
-
-    jmp .continue
-
-.left:
-    pop cx
-    push cx
-    cmp cx, 22
-    jl .continue
-
-    mov si, LGreen_Square
-    pop cx
-    pop dx
-    push dx
-    push cx
-    call printObj
-
-    
-    mov si, LGreen_Square
-    pop cx
-    pop dx
-    sub cx, 15
-    push dx
-    push cx
-
-    call printObj
-    jmp .continue
-
-.up:
-    pop cx
-    pop dx
-    push dx
-    push cx
-    cmp dx, 22
-    jl .continue
-
-    mov si, LGreen_Square
-    pop cx
-    pop dx
-    push dx
-    push cx
-    call printObj
-
-    
-    mov si, LGreen_Square
-    pop cx
-    pop dx
-    sub dx, 15
-    push dx
-    push cx
-
-    call printObj
-    jmp .continue
-
-.down:
-    pop cx
-    pop dx
-    push dx
-    push cx
-    cmp dx, 120
-    jg .continue
-
-    mov si, LGreen_Square
-    pop cx
-    pop dx
-    push dx
-    push cx
-    call printObj
-
-    
-    mov si, LGreen_Square
-    pop cx
-    pop dx
-    add dx, 15
-    push dx
-    push cx
-
-    call printObj
-    jmp .continue
-
-.continue:     ; continua printando na ocasiao do bixin estar parado
-
-    mov si, Red_Square
-    pop cx
-    pop dx
-    push dx
-    push cx
-    call printObj
-
-    ;Estou mexendo
-    call bombas_PrimeiraVida
-    ;Estou mexendo
-    
-    call getchar
-    cmp al, 100
-    je .right
-    cmp al, 97
-    je .left
-    cmp al, 115
-    je .down
-    cmp al, 119
-    je .up
- 
-    jmp .continue
-
-ret
-
-
-bombas_PrimeiraVida:
-
-    cmp cx, 21 ; coluna 1
-    je .coluna1 
-
-    cmp cx, 36
-    je .coluna2
-
-    cmp cx, 51
-    je .coluna3
-
-    cmp cx, 66
-    je .coluna4
-    
-    cmp cx, 81
-    je .coluna5
-
-    cmp cx, 96
-    je .coluna6
-
-    cmp cx, 111
-    je .coluna7
-
-    cmp cx, 126
-    je .coluna8
-
-    jmp .goBack
-
-
-    .coluna1:
-        cmp dx, 51
-        je .decide
-
-        cmp dx, 81
-        je .decide
-
-        cmp dx, 126
-        je .decide
-
-        jmp .goBack
-
-    .coluna2:
-        cmp dx, 51
-        je .decide
-
-        cmp dx, 111
-        je .decide
-
-        jmp .goBack
-
-    .coluna3:
-        cmp dx, 21
-        je .decide
-
-        cmp dx, 81
-        je .decide
-
-        jmp .goBack
-
-    .coluna4:
-        cmp dx, 51
-        je .decide
-
-        cmp dx, 96
-        je .decide
-
-        cmp dx, 111
-        je .decide
-
-        jmp .goBack
-
-    .coluna5:
-        cmp dx, 36
-        je .decide
-
-        cmp dx, 66
-        je .decide
-
-        cmp dx, 126
-        je .decide
-
-        jmp .goBack
-
-    .coluna6:
-        cmp dx, 81
-        je .decide
-
-        cmp dx, 111
-        je .decide
-
-        jmp .goBack
-
-    .coluna7:
-        cmp dx, 21
-        je .decide
-
-        cmp dx, 51
-        je .decide
-
-        cmp dx, 96
-        je .decide
-
-        jmp .goBack
-
-    .coluna8:
-        cmp dx, 36
-        je .decide
-
-        cmp dx, 66
-        je .decide
-
-        jmp .goBack
-
-    .decide:
-        add bx, 1
-
-        cmp bx, 1
-        je .firstLife
-
-        cmp bx, 2
-        je .secondLife
-
-        cmp bx, 3
-        je .thirdLife
-
-        jmp .goBack
-
-
-    .firstLife:
-        mov si, black
-        mov cx, 48
-        mov dx, 9
-        call printObj
-
-        pop cx
-        pop dx
-        push dx
-        push cx  
-
-        jmp .goBack
-
-
-    .secondLife: ; Apaga a primeira vida
-
-        mov si, black
-        mov cx, 36
-        mov dx, 9
-        call printObj
-
-        pop cx
-        pop dx
-        push dx
-        push cx  
-
-        jmp .goBack
-    
-    .thirdLife: ;Apaga a terceira vida
-        mov si, black
-        mov cx, 23
-        mov dx, 9
-        call printObj
-
-        pop cx
-        pop dx
-        push dx
-        push cx   
-
-        jmp .endgame
-
-        jmp .goBack
-
-    .endgame:
-        call _clear
-
-    .goBack:
-        ret
-
-
+    ret    
 
 getchar:
     mov ah, 0x00
@@ -395,11 +40,78 @@ printObj:  ;printa a string na posição (linha, coluna) = (dx, cx)
 		pop dx		
 		ret 
 
+
 printPixel:      ;printa pixel na posição (linha, coluna) = (dx, cx)
     mov ah, 0ch
     mov bh, 0
     int 10h
     ret
+
+
+;;;;;;;; RESOLVAM AÍ PARA PRINTAR O BX QUE EH O NUMERO DE PASSOS DADOS
+
+reverse:              ; mov si, string
+  mov di, si
+  xor cx, cx          ; zerar contador
+  .loop1:             ; botar string na stack
+    lodsb
+    cmp al, 0
+    je .endloop1
+    inc cl
+    push ax
+    jmp .loop1
+  .endloop1:
+  .loop2:             ; remover string da stack        
+    pop ax
+    stosb
+    loop .loop2
+  ret
+
+tostring:              ; mov ax, int / mov di, string
+  mov di, string
+  push di
+  .loop1:
+    cmp ax, 0
+    je .endloop1
+    xor dx, dx
+    mov bx, 10
+    div bx            ; ax = 9999 -> ax = 999, dx = 9
+    xchg ax, dx       ; swap ax, dx
+    add ax, 48        ; 9 + '0' = '9'
+    stosb
+    xchg ax, dx
+    jmp .loop1
+  .endloop1:
+  pop si
+  cmp si, di
+  jne .done
+  mov al, 48
+  stosb
+  .done:
+  mov al, 0
+  stosb
+  call reverse
+  ret
+
+putChar:
+    mov ah, 0eh
+    mov bl, dl
+
+    int 10h
+ret
+
+printString:
+    .loop:
+        lodsb
+        cmp al, 0
+        je .endloop
+        call putChar
+        jmp .loop
+
+    .endloop:
+    ret
+
+;;;;;;;;; ESSA PARTE TODA PEGUEI DA LISTA 5
 
 
 _clearKeys: ; apaga o buffer do teclado

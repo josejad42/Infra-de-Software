@@ -4,7 +4,8 @@ jmp 0x0000:start
 %include "data.asm"
 %include "funcs.asm"
 %include "grid.asm"
-%include "game.asm"
+%include "game2.asm"
+%include "bombardeio.asm"
 
 data:
 	
