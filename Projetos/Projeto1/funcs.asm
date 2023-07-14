@@ -121,6 +121,42 @@ _clearKeys: ; apaga o buffer do teclado
 
 _clear: ; Apagar tela
     mov ah, 0
-    mov al, 10h
+    mov al, 12h
     int 10h
+    ret
+
+print_string:   ; mov ax, string
+                ; dh --> pos y
+                ; dl --> pos x
+
+    pusha
+    xor cx, cx
+    mov si, ax
+    
+    push ax
+    .contar:
+      add cx, 1
+      lodsb
+
+      cmp al, 0
+      jne .contar
+    pop ax
+
+    push ax
+    xor ax, ax
+    mov es, ax
+    pop ax
+
+
+    mov bp, ax
+
+    mov ah, 13h
+    mov al, 00h
+    mov bh, 0
+    mov bl, 0xf
+    
+    int 10h
+
+    popa
+
     ret
