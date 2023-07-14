@@ -255,7 +255,7 @@ Ganhou:
 
     
     
-    mov dh, 0g
+    mov dh, 0
     mov dl, 0
     mov ax, passos
     call print_string
