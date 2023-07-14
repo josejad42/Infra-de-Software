@@ -68,6 +68,7 @@ print_grind:
         ret
       
 gridar:
+    pusha
     xor ax, ax
     mov ds, ax
     mov es, ax
@@ -81,4 +82,5 @@ gridar:
     push 8
     call print_grind
     add sp, 2
+    popa
     ret
