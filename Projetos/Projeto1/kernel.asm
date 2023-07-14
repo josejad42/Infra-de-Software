@@ -4,6 +4,7 @@ jmp 0x0000:start
 %include "data.asm"
 %include "funcs.asm"
 %include "grid.asm"
+%include "game1.asm"
 %include "game2.asm"
 %include "bombardeio.asm"
 
@@ -26,9 +27,7 @@ start:
         mov al, 10h
         int 10h
 
-    call gameSetup
-
-
+    call gameSetup1
 
     
     ;Código do projeto...

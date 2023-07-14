@@ -1,11 +1,11 @@
-gameSetup2: ; base visual do jogo
+gameSetup1: ; base visual do jogo
     xor bx, bx
     call gridar
     call SetBandeira
-    call init2
+    call init1
     ret
 
-init2: ; inicializa na posicao inicial
+init1: ; inicializa na posicao inicial
 
     mov si, Red_Square
     mov cx, 21
@@ -40,7 +40,7 @@ init2: ; inicializa na posicao inicial
     cmp al, 119
     je .up
 
-    jmp init2
+    jmp init1
     
 .right:
     pop cx
@@ -220,7 +220,7 @@ init2: ; inicializa na posicao inicial
     call printObj
 
     ;;;;
-    call esquema_de_bombas2
+    call esquema_de_bombas1
     cmp cx, 1
     je .bomb
     ;Estou mexendo
@@ -228,7 +228,7 @@ init2: ; inicializa na posicao inicial
     call getchar
     cmp al, 100
     je .right
-    cmp al, 97
+    cmp al, 97s
     je .left
     cmp al, 115
     je .down
@@ -245,6 +245,6 @@ init2: ; inicializa na posicao inicial
         pop dx
         call printObj
         
-        call init2
+        call init1
 
-ret
+ret   

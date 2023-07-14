@@ -125,6 +125,27 @@ _clear: ; Apagar tela
     int 10h
     ret
 
+;;;;;; APAGA A TELA E PRINTA A QUANTIDADE DE PASSOS
+Ganhou:
+    call _clear
+
+    
+    
+    mov dh, 0
+    mov dl, 0
+    mov ax, passos
+    call print_string
+
+    mov ax, bx
+    call tostring
+    
+    mov dh, 0
+    mov dl, 7
+    mov ax, string
+    call print_string
+    
+
+
 print_string:   ; mov ax, string
                 ; dh --> pos y
                 ; dl --> pos x
