@@ -13,6 +13,22 @@ init: ; inicializa na posicao inicial
     push dx
     push cx
     call printObj
+
+    pusha
+    mov dh, 0
+    mov dl, 0
+    mov ax, passos
+    call print_string
+
+    mov ax, bx
+    call tostring
+    
+    mov dh, 0
+    mov dl, 7
+    mov ax, string
+    call print_string
+    popa
+
     
     call getchar    ; lê w, a, s, d
     cmp al, 100
@@ -49,6 +65,21 @@ init: ; inicializa na posicao inicial
 
     add bx, 1
 
+    pusha
+    mov dh, 0
+    mov dl, 0
+    mov ax, passos
+    call print_string
+
+    mov ax, bx
+    call tostring
+    
+    mov dh, 0
+    mov dl, 7
+    mov ax, string
+    call print_string
+    popa
+
     jmp .continue
 
 .left:
@@ -74,6 +105,21 @@ init: ; inicializa na posicao inicial
     call printObj
 
     add bx, 1
+
+    pusha
+    mov dh, 0
+    mov dl, 0
+    mov ax, passos
+    call print_string
+
+    mov ax, bx
+    call tostring
+    
+    mov dh, 0
+    mov dl, 7
+    mov ax, string
+    call print_string
+    popa
 
     jmp .continue
 
@@ -102,6 +148,22 @@ init: ; inicializa na posicao inicial
     call printObj
 
     add bx, 1
+    
+    pusha
+    mov dh, 0
+    mov dl, 0
+    mov ax, passos
+    call print_string
+
+    mov ax, bx
+    call tostring
+    
+    mov dh, 0
+    mov dl, 7
+    mov ax, string
+    call print_string
+    popa
+
 
     jmp .continue
 
@@ -130,6 +192,21 @@ init: ; inicializa na posicao inicial
     call printObj
 
     add bx, 1
+
+    pusha
+    mov dh, 0
+    mov dl, 0
+    mov ax, passos
+    call print_string
+
+    mov ax, bx
+    call tostring
+    
+    mov dh, 0
+    mov dl, 7
+    mov ax, string
+    call print_string
+    popa
 
     jmp .continue
 
@@ -176,6 +253,18 @@ ret
 Ganhou:
     call _clear
 
+    
+    
+    mov dh, 0g
+    mov dl, 0
+    mov ax, passos
+    call print_string
+
     mov ax, bx
     call tostring
-    call printString
+    
+    mov dh, 0
+    mov dl, 7
+    mov ax, string
+    call print_string
+    
