@@ -1,9 +1,9 @@
-gameSetup1: ; base visual do jogo
+gameSetup3: ; base visual do jogo
     call set_game
-    call init1
+    call init3
     ret
 
-init1: ; inicializa na posicao inicial
+init3: ; inicializa na posicao inicial
     call base_Init1
     push dx
     push cx
@@ -23,13 +23,13 @@ init1: ; inicializa na posicao inicial
     cmp al, 119
     je .up
 
-    jmp init1
+    jmp init3
     
 .right:
     pop cx
     push cx
     cmp cx, 120     ; verifica se n ultrapassa os limites do tabuleiro
-    jg .continue1    
+    jg .continue3    
 
     mov si, LGreen_Square
     pop cx
@@ -52,13 +52,13 @@ init1: ; inicializa na posicao inicial
     call set_Passos
     popa
 
-    jmp .continue1
+    jmp .continue3
 
 .left:
     pop cx
     push cx
     cmp cx, 22
-    jl .continue1
+    jl .continue3
 
     mov si, LGreen_Square
     pop cx
@@ -82,7 +82,7 @@ init1: ; inicializa na posicao inicial
     call set_Passos
     popa
 
-    jmp .continue1
+    jmp .continue3
 
 .up:
     pop cx
@@ -90,7 +90,7 @@ init1: ; inicializa na posicao inicial
     push dx
     push cx
     cmp dx, 22
-    jl .continue1
+    jl .continue3
 
     mov si, LGreen_Square
     pop cx
@@ -115,7 +115,7 @@ init1: ; inicializa na posicao inicial
     popa
 
 
-    jmp .continue1
+    jmp .continue3
 
 .down:
     pop cx
@@ -123,7 +123,7 @@ init1: ; inicializa na posicao inicial
     push dx
     push cx
     cmp dx, 120
-    jg .continue1
+    jg .continue3
 
     mov si, LGreen_Square
     pop cx
@@ -147,9 +147,9 @@ init1: ; inicializa na posicao inicial
     call set_Passos
     popa
 
-    jmp .continue1
+    jmp .continue3
 
-.continue1:     ; continua printando na ocasiao do bixin estar parado
+.continue3:     ; continua printando na ocasiao do bixin estar parado
 
     mov si, Red_Square
     pop cx
@@ -159,9 +159,9 @@ init1: ; inicializa na posicao inicial
     call printObj
 
     ;;;;
-    call esquema_de_bombas1
+    call esquema_de_bombas3
     cmp cx, 1
-    je .bomb
+    je .bomb3
     ;Estou mexendo
 
     call getchar
@@ -174,15 +174,15 @@ init1: ; inicializa na posicao inicial
     cmp al, 119
     je .up
  
-    jmp .continue1
+    jmp .continue3
 
     ;;; Mudar a cor do quadrado onde tem bomba
-    .bomb:
+    .bomb3:
         mov si, DarkRed_Square
         pop cx
         pop dx
         call printObj
         
-        call init1
+        call init3
 
 ret

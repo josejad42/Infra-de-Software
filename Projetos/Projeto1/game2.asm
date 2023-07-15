@@ -1,35 +1,18 @@
 gameSetup2: ; base visual do jogo
-    xor bx, bx
-    call gridar
-    call SetBandeira
+    call set_game
     call init2
     ret
 
 init2: ; inicializa na posicao inicial
-
-    mov si, Red_Square
-    mov cx, 21
-    mov dx, 21
+    call base_Init1
     push dx
     push cx
     call printObj
 
     pusha
-    mov dh, 0
-    mov dl, 0
-    mov ax, passos
-    call print_string
-
-    mov ax, bx
-    call tostring
-    
-    mov dh, 0
-    mov dl, 7
-    mov ax, string
-    call print_string
+    call set_Passos
     popa
 
-    
     call getchar    ; lê w, a, s, d
     cmp al, 100
     je .right
@@ -46,7 +29,7 @@ init2: ; inicializa na posicao inicial
     pop cx
     push cx
     cmp cx, 120     ; verifica se n ultrapassa os limites do tabuleiro
-    jg .continue    
+    jg .continue2    
 
     mov si, LGreen_Square
     pop cx
@@ -66,27 +49,16 @@ init2: ; inicializa na posicao inicial
     add bx, 1
 
     pusha
-    mov dh, 0
-    mov dl, 0
-    mov ax, passos
-    call print_string
-
-    mov ax, bx
-    call tostring
-    
-    mov dh, 0
-    mov dl, 7
-    mov ax, string
-    call print_string
+    call set_Passos
     popa
 
-    jmp .continue
+    jmp .continue2
 
 .left:
     pop cx
     push cx
     cmp cx, 22
-    jl .continue
+    jl .continue2
 
     mov si, LGreen_Square
     pop cx
@@ -107,21 +79,10 @@ init2: ; inicializa na posicao inicial
     add bx, 1
 
     pusha
-    mov dh, 0
-    mov dl, 0
-    mov ax, passos
-    call print_string
-
-    mov ax, bx
-    call tostring
-    
-    mov dh, 0
-    mov dl, 7
-    mov ax, string
-    call print_string
+    call set_Passos
     popa
 
-    jmp .continue
+    jmp .continue2
 
 .up:
     pop cx
@@ -129,7 +90,7 @@ init2: ; inicializa na posicao inicial
     push dx
     push cx
     cmp dx, 22
-    jl .continue
+    jl .continue2
 
     mov si, LGreen_Square
     pop cx
@@ -150,22 +111,11 @@ init2: ; inicializa na posicao inicial
     add bx, 1
     
     pusha
-    mov dh, 0
-    mov dl, 0
-    mov ax, passos
-    call print_string
-
-    mov ax, bx
-    call tostring
-    
-    mov dh, 0
-    mov dl, 7
-    mov ax, string
-    call print_string
+    call set_Passos
     popa
 
 
-    jmp .continue
+    jmp .continue2
 
 .down:
     pop cx
@@ -173,7 +123,7 @@ init2: ; inicializa na posicao inicial
     push dx
     push cx
     cmp dx, 120
-    jg .continue
+    jg .continue2
 
     mov si, LGreen_Square
     pop cx
@@ -194,23 +144,12 @@ init2: ; inicializa na posicao inicial
     add bx, 1
 
     pusha
-    mov dh, 0
-    mov dl, 0
-    mov ax, passos
-    call print_string
-
-    mov ax, bx
-    call tostring
-    
-    mov dh, 0
-    mov dl, 7
-    mov ax, string
-    call print_string
+    call set_Passos
     popa
 
-    jmp .continue
+    jmp .continue2
 
-.continue:     ; continua printando na ocasiao do bixin estar parado
+.continue2:     ; continua printando na ocasiao do bixin estar parado
 
     mov si, Red_Square
     pop cx
@@ -222,7 +161,7 @@ init2: ; inicializa na posicao inicial
     ;;;;
     call esquema_de_bombas2
     cmp cx, 1
-    je .bomb
+    je .bomb2
     ;Estou mexendo
 
     call getchar
@@ -235,11 +174,10 @@ init2: ; inicializa na posicao inicial
     cmp al, 119
     je .up
  
-    jmp .continue
-
+    jmp .continue2
 
     ;;; Mudar a cor do quadrado onde tem bomba
-    .bomb:
+    .bomb2:
         mov si, DarkRed_Square
         pop cx
         pop dx

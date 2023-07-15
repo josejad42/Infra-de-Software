@@ -10,6 +10,33 @@ getchar:
     int 16h
 ret
 
+set_game:
+    xor bx, bx
+    call gridar
+    call SetBandeira
+    ret
+
+base_Init1:
+    mov si, Red_Square
+    mov cx, 21
+    mov dx, 21
+    ret
+
+set_Passos:
+    mov dh, 0
+    mov dl, 0
+    mov ax, passos
+    call print_string
+
+    mov ax, bx
+    call tostring
+    
+    mov dh, 0
+    mov dl, 7
+    mov ax, string
+    call print_string
+    ret
+
 printObj:  ;printa a string na posição (linha, coluna) = (dx, cx)
     push dx
 	push cx
@@ -128,21 +155,7 @@ _clear: ; Apagar tela
 ;;;;;; APAGA A TELA E PRINTA A QUANTIDADE DE PASSOS
 Ganhou:
     call _clear
-
-    
-    
-    mov dh, 0
-    mov dl, 0
-    mov ax, passos
-    call print_string
-
-    mov ax, bx
-    call tostring
-    
-    mov dh, 0
-    mov dl, 7
-    mov ax, string
-    call print_string
+    call set_Passos
     
 
 

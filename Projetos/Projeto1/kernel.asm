@@ -6,11 +6,10 @@ jmp 0x0000:start
 %include "grid.asm"
 %include "game1.asm"
 %include "game2.asm"
+%include "game3.asm"
+%include "game4.asm"
 %include "bombardeio.asm"
-
-data:
-	
-	;Dados do projeto...
+%include "menu.asm"
 
 start:
     xor ax, ax
@@ -27,7 +26,18 @@ start:
         mov al, 10h
         int 10h
 
-    call gameSetup1
+    call menu
+
+    ;;; As fases do jogo - não está funcional porque falta pegar o input do user
+    cmp al, 1
+    je gameSetup1 
+    cmp al, 2
+    je gameSetup2
+    cmp al, 3
+    je gameSetup3
+    cmp al, 4
+    je gameSetup4
+    ;;;;;;;;;;;;;;;
 
     
     ;Código do projeto...
