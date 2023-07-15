@@ -156,6 +156,7 @@ _clear: ; Apagar tela
 Ganhou:
     call _clear
     call set_Passos
+    jmp menuLoop
     
 
 
