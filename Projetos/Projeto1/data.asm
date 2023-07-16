@@ -19,4 +19,5 @@ opcao1 db "1. Mapa: Passeio no Parque", 0
 opcao2 db "2. Mapa: Safe", 0
 opcao3 db "3. Mapa: Puro Hell", 0
 opcao4 db "4. Mapa: Recife Alagado", 0
+backMenu db "Aperte ENTER para voltar ao menu", 0
 sair db "5. Sair", 0
