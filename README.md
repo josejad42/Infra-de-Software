@@ -4,13 +4,12 @@ Repositório criado para a resolução de tarefas/projetos relacionados à disci
 
 Projeto 1: Jogo desenvolvido em assembly x86 inicializado logo após o processo de bootloader.
 
-![image](https://github.com/josejad42/Infra-de-Software/assets/95773560/7278a241-e316-4d12-be13-ea3336726a21)
+![image](https://github.com/josejad42/Infra-de-Software/assets/95773560/d6aac556-c57a-4635-b0c5-f64c1513d7f3)
 
-Para conseguir jogar o jogo é preciso ter o QEMU e o NASM instalados, além do template do projeto. No terminal do linux execute os seguintes comandos:
+
+Para conseguir jogar o jogo é preciso ter o QEMU instalado, além do template do projeto. No terminal do linux execute os seguintes comandos:
 
 `sudo apt update`
-
-`sudo apt install nasm`   
 
 `sudo apt install qemu-system-x86`    
 
