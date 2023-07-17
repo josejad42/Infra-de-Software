@@ -20,4 +20,33 @@ opcao2 db "2. Mapa: Safe", 0
 opcao3 db "3. Mapa: Puro Hell", 0
 opcao4 db "4. Mapa: Recife Alagado", 0
 backMenu db "Aperte ENTER para voltar ao menu", 0
-sair db "5. Sair", 0
+opcao5 db "5. Calculadora Do Amor S2", 0
+sair db "6. Sair", 0
+nome1 db "Digite seu nome:", 0
+nome2 db "Digite o nome do(a) seu(sua) pretendente:", 0
+afinidade db "A afinidade de voces eh:", 0
+percent db "%", 0
+heart0 db " .*.        /~ .~\    /~  ~\    /~ .~\    /~  ~\", 0
+heart1 db " ***       '      `\/'      *  '      `\/'      *", 0
+heart2 db "  V       (                .*)(               . *)", 0
+heart3 db "/\|/\      \      tri   . *./  \      ary   . *./", 0
+heart4 db "  |         `\ .      . .*/'    `\ .      . .*/'       .*.", 0
+heart5 db "  |           `\ * .*. */' _    _ `\ * .*. */'         ***", 0
+heart6 db "                `\ * */'  ( `\/'*)  `\ * */'          /\V", 0
+heart7 db "                  `\/'     \    /'    `\/'              |/\", 0
+heart8 db "                            `\/'                        |", 0
+heart9 db"                            LOVES", 0
+pessoa1 db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+pessoa2 db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+titulo1 db "  / ____|    | |          | |         | |", 0                 
+titulo2 db " | |     __ _| | ___ _   _| | __ _  __| | ___  _ __ __ _", 0
+titulo3 db " | |    / _` | |/ __| | | | |/ _` |/ _` |/ _ \| '__/ _` |", 0
+titulo4 db " | |___| (_| | | (__| |_| | | (_| | (_| | (_) | | | (_| |", 0 
+titulo5 db "  \_____\__,_|_|\___|\__,_|_|\__,_|\__,_|\___/|_|  \__,_|", 0 
+titulo6 db "     | |           /\", 0                                     
+titulo7 db "   __| | ___      /  \   _ __ ___   ___  _ __", 0             
+titulo8 db "  / _` |/ _ \    / /\ \ | '_ ` _ \ / _ \| '__|", 0            
+titulo9 db " | (_| | (_) |  / ____ \| | | | | | (_) | |", 0               
+titulo10 db "  \__,_|\___/  /_/    \_|_| |_| |_|\___/|_|", 0               
+                                                          
+titulo11 db "Aperte ENTER para continuar", 0    

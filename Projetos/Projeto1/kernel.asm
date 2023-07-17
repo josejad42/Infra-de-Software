@@ -10,6 +10,7 @@ jmp 0x0000:start
 %include "game4.asm"
 %include "bombardeio.asm"
 %include "menu.asm"
+%include "calcDoAmor.asm"
 
 start:
     xor ax, ax
@@ -44,6 +45,8 @@ start:
         cmp al, 4
         je gameSetup4
         cmp al, 5
+        je calc
+        cmp al, 6
         je $
     ;;;;;;;;;;;;;;;
 

@@ -48,9 +48,16 @@ menu:
 
     xor ax, ax
     mov es, ax
+    mov ax, opcao5
+    mov cx, 25
+    mov dh, 16
+    call set_options
+
+    xor ax, ax
+    mov es, ax
     mov ax, sair
     mov cx, 7
-    mov dh, 16
+    mov dh, 18
     call set_options
 
     mov cx, 0
@@ -68,7 +75,7 @@ menu:
       jb .linha1
 
     mov cx, 0
-    mov dx, 285
+    mov dx, 310
 
     .linha2:
       int 10h

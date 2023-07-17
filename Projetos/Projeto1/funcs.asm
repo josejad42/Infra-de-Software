@@ -204,3 +204,73 @@ print_string:   ; mov ax, string
     popa
 
     ret
+
+  print_heart:
+    call _clear
+    mov dl, 0
+    mov dh, 0
+    mov ax, heart0
+    call print_string
+    mov dh, 1
+    mov ax, heart1
+    call print_string
+    mov dh, 2
+    mov ax, heart2
+    call print_string
+    mov dh, 3
+    mov ax, heart3
+    call print_string
+    mov dh, 4
+    mov ax, heart4
+    call print_string
+    mov dh, 5
+    mov ax, heart5
+    call print_string
+    mov dh, 6
+    mov ax, heart6
+    call print_string
+    mov dh, 7
+    mov ax, heart7
+    call print_string
+    mov dh, 8
+    mov ax, heart8
+    call print_string
+    mov dh, 9
+    mov ax, heart9
+    call print_string
+    ret
+
+  print_title:
+    call _clear
+    mov dl, 0
+    mov dh, 0
+    mov ax, titulo1
+    call print_string
+    mov dh, 1
+    mov ax, titulo2
+    call print_string
+    mov dh, 2
+    mov ax, titulo3
+    call print_string
+    mov dh, 3
+    mov ax, titulo4
+    call print_string
+    mov dh, 4
+    mov ax, titulo5
+    call print_string
+    mov dh, 5
+    mov ax, titulo6
+    call print_string
+    mov dh, 6
+    mov ax, titulo7
+    call print_string
+    mov dh, 7
+    mov ax, titulo8
+    call print_string
+    mov dh, 8
+    mov ax, titulo9
+    call print_string
+    mov dh, 9
+    mov ax, titulo10
+    call print_string
+    ret
