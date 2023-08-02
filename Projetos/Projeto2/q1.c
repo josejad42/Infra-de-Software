@@ -2,18 +2,19 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
+#include <time.h>
 #define STRING_SIZE 10
-int T;
-char senha[11];
-char descoberto[11];
+int T; // number of threads
+char senha[11]; // password input
+char descoberto[11]; // password output after algorithm
 
 
 void *findChar(void *tid){
     int id = *((int *)tid);
     for(int i=id;i<STRING_SIZE;i = i + T){
-        for(int j=0;j<127;j++){
+        for(int j=0;j<127;j++){ // iterate through all ascii values until match
             if(senha[i] == j){
-                descoberto[i] = j;
+                descoberto[i] = j; // assign password output with value found
                 break;
             }
         }
@@ -26,6 +27,7 @@ int main(){
     scanf("%d", &T);
     printf("digite sua senha(max 10 caracteres):\n");
     scanf("%s", senha);
+    clock_t begin = clock();
     pthread_t threads[T];
     
     int *taskids[T];
@@ -40,8 +42,10 @@ int main(){
         int *res;
         pthread_join(threads[i], NULL);
     }
-
+    clock_t end = clock();
+    double time = (double)(end - begin)/CLOCKS_PER_SEC;
     printf("Senha descoberta, hehe: %s\n", descoberto);
+    printf("TEMPO DE EXECUÇÃO: %lf\n", time);
 
     return 0;
 }
