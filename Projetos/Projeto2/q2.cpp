@@ -1,6 +1,4 @@
 #include<iostream>
-#include<queue>
-#include<stack>
 #include<pthread.h>
 #define NUM_THREADS 5
 
@@ -70,31 +68,53 @@ class Graph{
         return mark[i];
     }
 
-    void *DFS(void* threadid, void* vertex){
-        int tid = *((int*) threadid)
-        int v = *((int*) vertex)
-        printf("Sou a thread %d saindo do vertice %d\n", tid, v);
-        
-        setMark(v, 1);
-        int w = first(v);
-        while(w<n){
-            if(getMark(w) == 0) DFS(w);
-            w = next(v, w);
-        }
-    }
-
 };
+
+Graph grafo(10);
+
+void *DFS(void* threadid){
+    int v = *((int*) threadid);
+    printf("Vértice %d\n", v);
+    
+    grafo.setMark(v, 1);
+    
+    int *w;
+    w = (int*) malloc(sizeof(int));
+    *w = grafo.first(v);
+    
+    while(*w<grafo.n){
+        if(grafo.getMark(*w) == 0) DFS((void*)w);
+        *w = grafo.next(v, *w);
+    }
+    pthread_exit(NULL);
+}
 
 
 int main(){
-    Graph grafo(5);
     grafo.setEdge(0, 4, 1);
     grafo.setEdge(0, 1, 1);
     grafo.setEdge(1, 3, 1); 
     grafo.setEdge(2, 4, 1);
     grafo.setEdge(3, 2, 1);
     grafo.setEdge(4, 1, 1);
-    grafo.DFS(0);
+    grafo.setEdge(4, 9, 1);
+    grafo.setEdge(3, 5, 1);
+    grafo.setEdge(5, 8, 1);
+    grafo.setEdge(8, 7, 1);
+    grafo.setEdge(9, 8, 0);
     
+    pthread_t threads[NUM_THREADS];
+    int *taskids[NUM_THREADS];
+    int rc;
+    for(int i=0;i<NUM_THREADS;i++){
+        taskids[i] = (int*) malloc(sizeof(int));
+        *taskids[i] = i;
+        rc = pthread_create(&threads[i],NULL,DFS,(void*)taskids[i]);
+        if(rc){
+            printf("Erro! Código de retorno %d", rc);
+            exit(-1);
+        }
+    }
+    pthread_exit(NULL);
     return 0;
 }
