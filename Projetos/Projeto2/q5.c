@@ -10,7 +10,7 @@ int N;
 int* primeNumbers;
 int* mutex;
 
-void printArr(){    //Printa o indice das posicoes do array primeNumbers que esta true
+void printArr(){    //Printa o índice das posicoes do array primeNumbers que está como true
     
     printf("Prime numbers under %d : ", N);
     
@@ -23,11 +23,11 @@ void printArr(){    //Printa o indice das posicoes do array primeNumbers que est
 
 void* crivo(void *threadID){
     int id = *((int *)threadID);
-    for(int i= id+2; i<N; i++){                             //comeca do id+2 para pular 0 e 1 que nao sao primos
-            if(mutex[i]==false && primeNumbers[i]){         //Só continua no indice se o mutex[i] nao tenha sido verificado e se primeNumbers[i]==true
+    for(int i= id+2; i<N; i++){                             //comeca do id+2 para pular 0 e 1 que não são primos
+            if(mutex[i]==false && primeNumbers[i]){         //Só continua no índice se o mutex[i] não tenha sido verificado e se primeNumbers[i]==true
                 mutex[i] = true;                            //mutex == true diz que o numero ja foi verificado
                 //printf("Number %d at thread %d\n", i, id);
-                for(int j=i+1; j<N; j++){                   //Como i é um primo, use-o para encontrar multiplos nos indices seguintes
+                for(int j=i+1; j<N; j++){                   //Como i é um primo, use-o para encontrar múltiplos nos índices seguintes
                     if( primeNumbers[j] && (j % i == 0))    // Se primeNumbers[j]==true 
                         primeNumbers[j] -= 1;               // primeNumbers[i] = false porque não é primo
                 }                                           //Usei -1 para verificar se esse valor só era modificado uma vez
@@ -79,4 +79,5 @@ int main(){
     pthread_exit(NULL);
     free(primeNumbers);
     free(mutex);
+    return 0;
 }
