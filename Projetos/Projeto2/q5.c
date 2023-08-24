@@ -53,6 +53,9 @@ void makeThreads(){                     //Criação das Threads
     
     for(int i=0; i<NUM_THREADS; i++)
         pthread_join(threads[i], NULL);
+        
+    printArr();
+    pthread_exit(NULL);
 }
 
 int main(){
@@ -74,10 +77,9 @@ int main(){
     scanf("%d", &NUM_THREADS);
         
     makeThreads();
-        
-    printArr();
-    pthread_exit(NULL);
+    
     free(primeNumbers);
     free(mutex);
+    
     return 0;
 }
