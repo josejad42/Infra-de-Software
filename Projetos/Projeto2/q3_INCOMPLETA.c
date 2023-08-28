@@ -4,6 +4,8 @@
 
 #define arraySize 10
 
+int counter = 100;
+
 pthread_mutex_t db = PTHREAD_MUTEX_INITIALIZER;             //Controla o acesso ao array
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;          //Controla o acesso a "rc"
 
@@ -15,7 +17,7 @@ int NUM_READERS;
 int NUM_WRITERS;
 
 void* reader(void *threadID){
-    //while(1){
+    while(counter >= 0){
     int readerID = *((int *)threadID);
     
         printf("Reader %d : wants to read\n", readerID);
@@ -28,7 +30,8 @@ void* reader(void *threadID){
         pthread_mutex_unlock(&mutex);               //Libera acesso a rc
         
         //read_data_base;
-        printf("Reader %d : reading\n", readerID);
+        int index = rand() % (arraySize - 1);
+        printf("Reader %d : reading %d at index %d \n", readerID, array[index], index);
         
         pthread_mutex_lock(&mutex);
         rc -= 1;
@@ -40,11 +43,13 @@ void* reader(void *threadID){
         
         //use_data_base
         printf("Reader %d : finished\n", readerID);
-    //}
+        
+        counter--;
+    }
 }
 
 void* writer(void *threadID){
-    //while(1){
+    while(counter >= 0){
     int writerId = *((int *)threadID);
         //think_up_data;
         printf("Writer %d : wants to write\n", writerId);
@@ -52,11 +57,15 @@ void* writer(void *threadID){
         pthread_mutex_lock(&db);        //Obtem acesso exclusivo
         
         //write_data_base();      //Escreve no array
-        printf("Writer %d : writing\n", writerId);
+        int index = rand() % (arraySize - 1);
+        array[index] = writerId;
+        printf("Writer %d : writing %d at %d \n", writerId, writerId, index);
         
         pthread_mutex_unlock(&db);              //Libera para outros processos
         printf("Writer %d : finished\n", writerId);
-   //}
+        
+        counter--;
+   }
 }
 
 void makeThreads(){
