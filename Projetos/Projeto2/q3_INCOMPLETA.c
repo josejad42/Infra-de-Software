@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-
+ 
 #define arraySize 10
 
 int counter = 100;
