@@ -17,7 +17,7 @@ int NUM_READERS;
 int NUM_WRITERS;
 
 void* reader(void *threadID){
-    while(counter >= 0){
+    //while(counter >= 0){
     int readerID = *((int *)threadID);
     
         printf("Reader %d : wants to read\n", readerID);
@@ -45,11 +45,11 @@ void* reader(void *threadID){
         printf("Reader %d : finished\n", readerID);
         
         counter--;
-    }
+    //}
 }
 
 void* writer(void *threadID){
-    while(counter >= 0){
+    //while(counter >= 0){
     int writerId = *((int *)threadID);
         //think_up_data;
         printf("Writer %d : wants to write\n", writerId);
@@ -65,7 +65,7 @@ void* writer(void *threadID){
         printf("Writer %d : finished\n", writerId);
         
         counter--;
-   }
+   //}
 }
 
 void makeThreads(){
