@@ -14,6 +14,7 @@ void *findChar(void *tid){
     for(int i=id;i<STRING_SIZE;i = i + T){
         for(int j=0;j<127;j++){ // iterate through all ascii values until match
             if(senha[i] == j){
+                printf("thread %d descobriu o caractere (%c) que fica no índice %d da string\n",id, j, i);
                 descoberto[i] = j; // assign password output with value found
                 break;
             }
@@ -35,7 +36,11 @@ int main(){
         printf("Criando thread de id %d no main \n", i);
         taskids[i] = (int *)malloc(sizeof(int));
         *taskids[i] = i;
-        pthread_create(&threads[i], NULL, findChar, (void *)taskids[i]);
+        int rc = pthread_create(&threads[i], NULL, findChar, (void *)taskids[i]);
+        if(rc){
+            printf("ERRO ao criar thread %d", i);
+            exit(-1);
+        }
     }
 
     for(int i=0;i<T;i++){
