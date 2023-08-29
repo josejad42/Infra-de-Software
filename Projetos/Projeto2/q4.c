@@ -1,8 +1,12 @@
+#define _XOPEN_SOURCE 600
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
+
+pthread_barrier_t barrier;
+
 typedef struct{
     int x, y;
 } Point;
@@ -17,17 +21,23 @@ typedef struct {
 
 int mX = 5;
 int mY = 5;
-int matrix[5][5] = {{1,1,0,0,0},
-                    {0,0,1,1,1},
-                    {1,1,0,0,0},
-                    {1,0,0,0,0},
-                    {0,1,0,1,1}};
+int matrix[5][5] = {{0,0,1,0,0},
+                    {1,0,1,0,0},
+                    {0,0,1,0,0},
+                    {1,0,1,0,1},
+                    {1,0,0,0,0}};
+    
+
+
+
+
 
                           
 
 //+----------Please, insert your input matrix here-----------+
 
 int setCounter = 0; //total number of sets
+pthread_barrier_t barrier;
 
 Set *beginSet(){ // will create a set for each point in matrix
     Set *init;
@@ -172,8 +182,9 @@ void *landscapeVerify(void *tid){
             
         }
     }
+    pthread_barrier_wait(&barrier); // waits until all threads have uploaded all its lands
     if(id!=(N-1)){
-        pthread_join(threads[id+1], NULL);
+        
         int i = id*ceil((double)mY/N) + ceil((double)mY/N);
         for(int j=0;j<mX;j++){ // joining points of different threads (bottom-up)
             if(matrix[i][j] == 1){
@@ -212,6 +223,7 @@ int main()
    
     printf("Type number of threads:\n");
     scanf("%d", &N);
+    pthread_barrier_init(&barrier, NULL, N);
     threads = (pthread_t *)malloc(sizeof(pthread_t)*N);
 
     int *taskids[N];
@@ -226,7 +238,10 @@ int main()
         }
     }
 
-    pthread_join(threads[0], NULL);
+    
+    for(int i=0;i<N;i++){
+        pthread_join(threads[i],NULL);
+    }
     int lands = 0;
     for(int i=0;i<setCounter;i++){
         if(sets[i].size!=0){
