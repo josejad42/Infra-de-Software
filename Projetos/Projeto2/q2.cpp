@@ -3,6 +3,7 @@
 #define NUM_THREADS 6
 
 //OBS: para compilar e executar o arquivo c++, usa-se a linha de comando $ g++ nomedoarquivo.cpp -o nome && ./nome $ no terminal aberto no diretório do arquivo
+//Feito com a versão 11 do g++
 
 using namespace std;
 
@@ -38,8 +39,9 @@ class Graph{       //Classe grafo que servirá para o grafo de alocação
 
 };
 
-Graph grafo(NUM_THREADS);      // cria um grafo, para cada vértice temos uma Thread
-int NumThreadsSemCiclo = 0;    // variável que indica quantas Threads terminaram a execuçao sem encontrar ciclos
+Graph grafo(NUM_THREADS);        // cria um grafo, para cada vértice temos uma Thread
+int NumThreadsSemCiclo = 0;      // variável que indica quantas Threads terminaram a execuçao sem encontrar ciclos
+bool deadlockEncontrado = false; // variável que indica se um deadlock foi encontrado
 
 bool DFS(int tid, int v, bool *mark, bool **mark_vertex){ // Função auxiliar que realiza uma busca por profundidade no grafo
     printf("Thread %d Vertice %d\n", tid, v);
@@ -49,7 +51,7 @@ bool DFS(int tid, int v, bool *mark, bool **mark_vertex){ // Função auxiliar q
 
     for(int i = 0; i<grafo.n; i++){
         if((mark_vertex[v][i] == false) && (grafo.matrix[v][i])){ // verifica se a aresta ainda não foi percorrida e se ela existe no grafo
-            mark_vertex[v][i] = true; // marca aresta como visitada
+            mark_vertex[v][i] = true;           // marca aresta como visitada
             return DFS(tid,i,mark,mark_vertex); // chama recursivamente a função
         }
     }
@@ -57,12 +59,13 @@ bool DFS(int tid, int v, bool *mark, bool **mark_vertex){ // Função auxiliar q
     return false;
 }
 
-void *FindDeadlock(void* threadid){ //Função que encontra um ciclo se houver
+void *FindDeadlock(void* threadid){             //Função que encontra um ciclo se houver
+    if (deadlockEncontrado) pthread_exit(NULL); //Finaliza a thread se um deadlock já foi encontrado
     int tid = *((int*) threadid);
     printf("Thread %d Vertice %d\n", tid, tid);
 
     int size = grafo.n;
-    bool mark[size];  // vetor que indica os vértices marcados
+    bool mark[size];    // vetor que indica os vértices marcados
     for (int i = 0; i<size; i++){
         mark[i] = false;
     }
@@ -77,17 +80,19 @@ void *FindDeadlock(void* threadid){ //Função que encontra um ciclo se houver
         }
     }
 
-    mark[tid] = true; // marca vértice inicial
-    bool deadlock; // variável que indica a existência de deadlocks
+    mark[tid] = true;  // marca vértice inicial
+    bool deadlock;     // variável que indica a existência de deadlocks
 
     for(int i = 0; i<size; i++){
+        if (deadlockEncontrado) pthread_exit(NULL);                   //Finaliza a thread se um deadlock já foi encontrado
         if((mark_vertex[tid][i] == false) && (grafo.matrix[tid][i])){ // verifica se a aresta ainda não foi percorrida e se ela existe no grafo
-            mark_vertex[tid][i] = true; //marca aresta como visitada
+            mark_vertex[tid][i] = true;                               //marca aresta como visitada
             deadlock = DFS(tid,i,mark,mark_vertex); 
         }
         if (deadlock){
             printf("Deadlock encontrado.\n");
-            exit(0);                    //sai do programa após encontrar um deadlock
+            deadlockEncontrado = true;
+            pthread_exit(NULL);
         }
     }
     
@@ -117,7 +122,7 @@ int main(){
     int rc;
     for(int i=0; i<NUM_THREADS; i++){ // inicializa uma Thread para cada vertice do grafo de alocação
         threadids[i] = (int*) malloc(sizeof(int));
-        *threadids[i] = i;
+        *threadids[i] = 3;
         rc = pthread_create(&threads[i],NULL,FindDeadlock,(void*)threadids[i]);
         if(rc){
             printf("Erro! Codigo de retorno %d", rc);
