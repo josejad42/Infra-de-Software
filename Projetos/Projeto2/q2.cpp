@@ -2,6 +2,8 @@
 #include<pthread.h>
 #define NUM_THREADS 6
 
+//OBS: para compilar e executar o arquivo c++, usa-se a linha de comando $ g++ nomedoarquivo.cpp -o nome && ./nome $ no terminal aberto no diretório do arquivo
+
 using namespace std;
 
 class Graph{       //Classe grafo que servirá para o grafo de alocação
