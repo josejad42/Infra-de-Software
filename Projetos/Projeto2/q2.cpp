@@ -37,7 +37,7 @@ class Graph{       //Classe grafo que servirá para o grafo de alocação
 };
 
 Graph grafo(NUM_THREADS);      // cria um grafo, para cada vértice temos uma Thread
-int NumThreadsSemCiclo = 0;    // 
+int NumThreadsSemCiclo = 0;    // variável que indica quantas Threads terminaram a execuçao sem encontrar ciclos
 
 bool DFS(int tid, int v, bool *mark, bool **mark_vertex){ // Função auxiliar que realiza uma busca por profundidade no grafo
     printf("Thread %d Vertice %d\n", tid, v);
@@ -61,10 +61,18 @@ void *FindDeadlock(void* threadid){ //Função que encontra um ciclo se houver
 
     int size = grafo.n;
     bool mark[size];  // vetor que indica os vértices marcados
+    for (int i = 0; i<size; i++){
+        mark[i] = false;
+    }
     bool **mark_vertex; // matriz que indica as arestas visitadas
     mark_vertex = new bool*[size];
     for (int i = 0; i < size; i++) {
         mark_vertex[i] = new bool[size];
+    }
+    for(int i = 0; i<size; i++){
+        for (int j = 0; j<size; j++){
+            mark_vertex[i][j] = false;
+        }
     }
 
     mark[tid] = true; // marca vértice inicial
@@ -77,12 +85,18 @@ void *FindDeadlock(void* threadid){ //Função que encontra um ciclo se houver
         }
         if (deadlock){
             printf("Deadlock encontrado.\n");
-            exit(0);
+            exit(0);                    //sai do programa após encontrar um deadlock
         }
     }
     
-    if(!deadlock) NumThreadsSemCiclo++; //
-    if(NumThreadsSemCiclo == NUM_THREADS) printf("Sem deadlock nesse grafo de alocação.\n");
+    if(!deadlock) NumThreadsSemCiclo++; //incrementa a variável quando a execuçao da thread nao encontrar deadlock 
+    if(NumThreadsSemCiclo == NUM_THREADS) printf("Sem deadlock nesse grafo de alocação.\n"); //se nenhuma das threads encontrou um ciclo, não existe deadlock no grafo de alocação
+    
+    for(int i = 0; i<size; i++){
+        delete[] mark_vertex[i];
+    }
+    delete[] mark_vertex;
+    
     pthread_exit(NULL);
 }
 
@@ -99,7 +113,7 @@ int main(){
     pthread_t threads[NUM_THREADS];
     int *threadids[NUM_THREADS];
     int rc;
-    for(int i=0; i<NUM_THREADS; i++){
+    for(int i=0; i<NUM_THREADS; i++){ // inicializa uma Thread para cada vertice do grafo de alocação
         threadids[i] = (int*) malloc(sizeof(int));
         *threadids[i] = i;
         rc = pthread_create(&threads[i],NULL,FindDeadlock,(void*)threadids[i]);
