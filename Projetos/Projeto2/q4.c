@@ -12,16 +12,24 @@ typedef struct {
     int size;
 
 } Set;
+//ATTENTION: if the function ceil isn't recognized by the compiler, insert "-lm" after the source file in tasks.json
+//+----------Please, insert your input matrix here-----------+
 
+int mX = 5;
+int mY = 5;
+int matrix[5][5] = {{1,1,0,0,0},
+                    {0,0,1,1,1},
+                    {1,1,0,0,0},
+                    {1,0,0,0,0},
+                    {0,1,0,1,1}};
 
+                          
 
-int mX = 10;
-int mY = 10;
-int matrix[10][10]; 
+//+----------Please, insert your input matrix here-----------+
 
-int setCounter = 0;
+int setCounter = 0; //total number of sets
 
-Set *beginSet(){
+Set *beginSet(){ // will create a set for each point in matrix
     Set *init;
     
     init = (Set *)malloc(sizeof(Set)*0);
@@ -45,7 +53,7 @@ Set *beginSet(){
     return init;
 }
 
-int findIndexSet(int x, int y, Set *sets){
+int findIndexSet(int x, int y, Set *sets){ // find the set of a specific point of the matrix
     for(int i=0;i<setCounter;i++){
         for(int j=0;j<sets[i].size;j++){
             if(sets[i].p[j].x == x && sets[i].p[j].y == y){
@@ -56,7 +64,7 @@ int findIndexSet(int x, int y, Set *sets){
     return -1;
 }
 
-void JoinSets(int index1, int index2, Set *sets){
+void JoinSets(int index1, int index2, Set *sets){ // will join sets
     if(index1!=index2){
 
 
@@ -93,24 +101,14 @@ void JoinSets(int index1, int index2, Set *sets){
 
 
 
-int N;
-pthread_t *threads;
-Set *sets;
-void printState(){
-    for(int i=0;i<setCounter;i++){
-        printf("Set %d: ", i);
-        for(int j=0;j<sets[i].size;j++){
-            printf("(%d,%d), ", sets[i].p[j].x, sets[i].p[j].y);
-        }
-        printf("\n");
-        
-    }
-    printf("\n");
-}
+int N; // number of threads
+pthread_t *threads; //vector of threads
+Set *sets; //vector of sets
+
 
 void *landscapeVerify(void *tid){
     int id = *((int *)(tid));
-    for(int i=id*ceil((double)mY/N);i<(id*ceil((double)mY/N) + ceil((double)mY/N));i++){
+    for(int i=id*ceil((double)mY/N);i<(id*ceil((double)mY/N) + ceil((double)mY/N));i++){ //joining point with its surroundings
         for(int j=0;j<mX;j++){
             if(matrix[i][j]==1){
                 if((i-1)>=id*ceil((double)mY/N) && (j-1)>=0 && matrix[i-1][j-1] == 1){ //top-left
@@ -118,56 +116,56 @@ void *landscapeVerify(void *tid){
                     printf("joining (%d, %d) e (%d,%d)\n", j, i, j-1, i-1);
                     printf("index1 = %d; index2 = %d\n", findIndexSet(j,i,sets), findIndexSet(j-1,i-1,sets));
                     JoinSets(findIndexSet(j,i,sets), findIndexSet(j-1,i-1,sets), sets);
-                    printState();
+                    
                 }
                 if((i-1)>=id*ceil((double)mY/N) && matrix[i-1][j] == 1){ // top
                     printf("id: %d\n", id);
                     printf("joining (%d, %d) e (%d,%d)\n", j, i, j, i-1);
                     printf("index1 = %d; index2 = %d\n", findIndexSet(j,i,sets), findIndexSet(j,i-1,sets));
                     JoinSets(findIndexSet(j, i, sets), findIndexSet(j, i-1, sets), sets);
-                    printState();
+                    
                 }
                 if((i-1)>=id*ceil((double)mY/N) && (j+1)<mX && matrix[i-1][j+1] == 1){//top-right
                     printf("id: %d\n", id);
                     printf("joining (%d, %d) e (%d,%d)\n", j, i, j+1, i-1);
                     printf("index1 = %d; index2 = %d\n", findIndexSet(j,i,sets), findIndexSet(j+1,i-1,sets));
                     JoinSets(findIndexSet(j, i, sets), findIndexSet(j+1, i-1, sets), sets);
-                    printState();
+                    
                 }
                 if((j-1)>=0 && matrix[i][j-1] == 1){ //left
                     printf("id: %d\n", id);
                     printf("joining (%d, %d) e (%d,%d)\n", j, i, j-1, i);
                     printf("index1 = %d; index2 = %d\n", findIndexSet(j,i,sets), findIndexSet(j-1,i,sets));
                     JoinSets(findIndexSet(j,i,sets), findIndexSet(j-1,i,sets),sets);
-                    printState();
+                    
                 }
                 if((j+1)<mX && matrix[i][j+1] == 1){ //right
                     printf("id: %d\n", id);
                     printf("joining (%d, %d) e (%d,%d)\n", j, i, j+1, i);
                     printf("index1 = %d; index2 = %d\n", findIndexSet(j,i,sets), findIndexSet(j+1,i,sets));
                     JoinSets(findIndexSet(j,i,sets), findIndexSet(j+1, i, sets), sets);
-                    printState();
+                    
                 }
                 if((i+1)<(id*ceil((double)mY/N) + ceil((double)mY/N)) && (j-1)>=0 && matrix[i+1][j-1] == 1){ // bottom-left
                     printf("id: %d\n", id);
                     printf("joining (%d, %d) e (%d,%d)\n", j, i, j-1, i+1);
                     printf("index1 = %d; index2 = %d\n", findIndexSet(j,i,sets), findIndexSet(j-1,i+1,sets));
                     JoinSets(findIndexSet(j, i, sets), findIndexSet(j-1, i+1, sets), sets);
-                    printState();
+                    
                 }
                 if((i+1)<(id*ceil((double)mY/N) + ceil((double)mY/N)) && matrix[i+1][j] == 1){ // bottom
                     printf("id: %d\n", id);
                     printf("joining (%d, %d) e (%d,%d)\n", j, i, j, i+1);
                     printf("index1 = %d; index2 = %d\n", findIndexSet(j,i,sets), findIndexSet(j,i+1,sets));
                     JoinSets(findIndexSet(j, i, sets), findIndexSet(j, i+1, sets), sets);
-                    printState();
+                    
                 }
                 if((i+1)<(id*ceil((double)mY/N) + ceil((double)mY/N)) && (j+1)<mX && matrix[i+1][j+1] == 1){ //bottom-right
                     printf("id: %d\n", id);
                     printf("joining (%d, %d) e (%d,%d)\n", j, i, j+1, i+1);
                     printf("index1 = %d; index2 = %d\n", findIndexSet(j,i,sets), findIndexSet(j+1,i+1,sets));
                     JoinSets(findIndexSet(j, i, sets), findIndexSet(j+1, i+1, sets), sets);
-                    printState();
+                    
                 }
                 
             }
@@ -177,7 +175,7 @@ void *landscapeVerify(void *tid){
     if(id!=(N-1)){
         pthread_join(threads[id+1], NULL);
         int i = id*ceil((double)mY/N) + ceil((double)mY/N);
-        for(int j=0;j<mX;j++){
+        for(int j=0;j<mX;j++){ // joining points of different threads (bottom-up)
             if(matrix[i][j] == 1){
                 if((i-1)>=0 && (j-1)>=0 && matrix[i-1][j-1] == 1){ //top-left
                     printf("id: %d\n", id);
@@ -208,22 +206,11 @@ void *landscapeVerify(void *tid){
 
 int main()
 {
-    srand(time(0));
-    for(int i=0;i<mY;i++){
-        for(int j=0;j<mX;j++){
-            
-            matrix[i][j] = rand()%2;
-            printf("%d", matrix[i][j]);
-        }
-        printf("\n");
-        
-    }
-
     
     sets = beginSet();
-    
-    printState();
-    printf("digite o número de Threads:\n");
+    printf("PLEASE, REMEMBER TO INSERT YOUR MATRIX IN THE CODE ON INPUT AREA ABOVE\n");
+   
+    printf("Type number of threads:\n");
     scanf("%d", &N);
     threads = (pthread_t *)malloc(sizeof(pthread_t)*N);
 
@@ -232,7 +219,11 @@ int main()
         printf("Criando thread de id %d no main \n", i);
         taskids[i] = (int *)malloc(sizeof(int));
         *taskids[i] = i;
-        pthread_create(&threads[i], NULL, landscapeVerify, (void *)taskids[i]);
+        int rc = pthread_create(&threads[i], NULL, landscapeVerify, (void *)taskids[i]);
+        if(rc){
+            printf("ERROR creating thread %d\n", i);
+            exit(-1);
+        }
     }
 
     pthread_join(threads[0], NULL);
@@ -242,7 +233,6 @@ int main()
             lands++;
         }
     }
-    printState();
-    printf("A quantidade de ilhas é: %d\n", lands);
+    printf("The number of islands is: %d\n", lands);
     return 0;
 }
