@@ -37,7 +37,7 @@ int matrix[5][5] = {{0,0,1,0,0},
 //+----------Please, insert your input matrix here-----------+
 
 int setCounter = 0; //total number of sets
-pthread_barrier_t barrier;
+
 
 Set *beginSet(){ // will create a set for each point in matrix
     Set *init;
