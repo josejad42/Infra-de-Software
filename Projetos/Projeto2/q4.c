@@ -19,13 +19,16 @@ typedef struct {
 //ATTENTION: if the function ceil isn't recognized by the compiler, insert "-lm" after the source file in tasks.json
 //+----------Please, insert your input matrix here-----------+
 
-int mX = 5;
-int mY = 5;
-int matrix[5][5] = {{0,0,1,0,0},
-                    {1,0,1,0,0},
-                    {0,0,1,0,0},
-                    {1,0,1,0,1},
-                    {1,0,0,0,0}};
+int mX = 8;
+int mY = 8;
+int matrix[8][8] = {{0,0,1,0,0,0,0,0},
+                    {0,0,1,0,0,0,0,1},
+                    {0,0,1,0,0,0,0,1},
+                    {0,0,1,0,0,1,0,0},
+                    {0,0,1,0,0,1,0,1},
+                    {0,0,1,1,1,1,0,1},
+                    {0,0,1,0,0,1,0,1},
+                    {0,0,1,0,0,1,0,0}};
     
 
 
@@ -184,9 +187,9 @@ void *landscapeVerify(void *tid){
     }
     pthread_barrier_wait(&barrier); // waits until all threads have uploaded all its lands
     if(id!=(N-1)){
-        
+        pthread_join(threads[id+1],NULL);//waits for the region below to solve its surroundings
         int i = id*ceil((double)mY/N) + ceil((double)mY/N);
-        for(int j=0;j<mX;j++){ // joining points of different threads (bottom-up)
+        for(int j=0;j<mX;j++){ // joining points of different threads(bottom-up)
             if(matrix[i][j] == 1){
                 if((i-1)>=0 && (j-1)>=0 && matrix[i-1][j-1] == 1){ //top-left
                     printf("id: %d\n", id);
@@ -239,9 +242,9 @@ int main()
     }
 
     
-    for(int i=0;i<N;i++){
-        pthread_join(threads[i],NULL);
-    }
+    
+    pthread_join(threads[0],NULL);
+    
     int lands = 0;
     for(int i=0;i<setCounter;i++){
         if(sets[i].size!=0){
