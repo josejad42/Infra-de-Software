@@ -234,5 +234,7 @@ int main()
         }
     }
     printf("The number of islands is: %d\n", lands);
+    free(sets);
+    free(threads);
     return 0;
 }
